@@ -66,5 +66,4 @@ def generate_a_new_generation(table):
 #     generate_a_new_generation(table);
 #     table = future_table;
 #     print();
-#     print(table[4])
 #     input();
