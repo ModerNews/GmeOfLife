@@ -14,8 +14,10 @@ def count_alive_cells(table):
 
 
 # Tworzenie planszy
-rows_num = int(input("Jak wiele rzędów? "))
-columns_num = int(input("Jak wiele kolumn? "))
+# rows_num = int(input("Jak wiele rzędów? "))
+# columns_num = int(input("Jak wiele kolumn? "))
+rows_num = 10
+columns_num = 10
 table = []
 future_table = []
 for r in range(0, rows_num + 1):
@@ -65,41 +67,82 @@ def generate_a_new_generation(table):
 
 
 pygame.init()
-width, height = rows_num * 45, columns_num * 45
+width, height = (rows_num) * 45, columns_num * 45
 screen = pygame.display.set_mode((width, height))
 
-player = pygame.image.load("res/bit.png")
+sprites = []
+bit = pygame.image.load("res/bit.png")
+buttonStart = pygame.image.load("res/buttonS.png")
+buttonPause = pygame.image.load("res/buttonP.png")
+sprites.append(bit)
+sprites.append(buttonPause)
+sprites.append(buttonStart)
+
 i = 0
 
 
-for i in range(0, len(table) - 1):
-    print(table[i])
+# for i in range(0, len(table) - 1):
+#     print(table[i])
 generate_a_new_generation(table)
 table = future_table
+running = True
 
+pygame.display.set_caption("Game of Life")
+pygame.display.set_icon(pygame.image.load("res/Corona0.png"))
 while 1:
-    #odstęp między kolejnymi generacjami
-    time.sleep(0.25)
+    while running:
+        generate_a_new_generation(table)
+        table = future_table
 
-    #tworzenie generacji
-    for i in range(0, len(table) - 1):
-        print(table[i])
-    generate_a_new_generation(table)
-    table = future_table
+        screen.fill((255, 255, 255))
+        lengY = len(table) - 1
+        for y in range(lengY):
+            lengX = len(table[y])
+            for x in range(lengX):
+                val = table[y][x]
+                if val == 1:
+                    screen.blit(bit, ((x + 1) * 45 - 45, (y + 1) * 45))
+        time.sleep(0.35)
+        screen.blit(buttonStart, (0, 0))
+        screen.blit(buttonPause, (45, 0))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
 
-    screen.fill((255, 255, 255))
-    lengY = len(table) - 1
-    for y in range(lengY):
-        lengX = len(table[y]) - 1
-        for x in range(lengX):
-            val = table[y][x]
-            if val == 1:
-                screen.blit(pygame.image.load("res/bit.png"), ((x + 1) * 45, (y + 1) * 45))
-            else:
-                continue
-    pygame.display.flip()
-    print("Done")
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit(0)
+                if 0 <= pos[0] <= 45 and 0 <= pos[1] <= 45:
+                    running = True
+                    print(running)
+                elif 45 <= pos[0] <= 90 and 0 <= pos[1] <= 45:
+                    running = False
+                    print(running)
+
+    while not running:
+        screen.fill((255, 255, 255))
+        lengY = len(table) - 1
+        for y in range(lengY):
+            lengX = len(table[y])
+            for x in range(lengX):
+                val = table[y][x]
+                if val == 1:
+                    screen.blit(bit, ((x + 1) * 45 - 45, (y + 1) * 45))
+        time.sleep(0.35)
+        screen.blit(buttonStart, (0, 0))
+        screen.blit(buttonPause, (45, 0))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+
+                if 0 <= pos[0] <= 45 and 0 <= pos[1] <= 45:
+                    running = True
+                    print(running)
+                elif 45 <= pos[0] <= 90 and 0 <= pos[1] <= 45:
+                    running = False
+                    print(running)
