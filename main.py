@@ -14,10 +14,10 @@ def count_alive_cells(table):
 
 
 # Tworzenie planszy
-# rows_num = int(input("Jak wiele rzędów? "))
-# columns_num = int(input("Jak wiele kolumn? "))
-rows_num = 10
-columns_num = 10
+rows_num = int(input("Jak wiele rzędów? "))
+columns_num = int(input("Jak wiele kolumn? "))
+# rows_num = 10
+# columns_num = 10
 table = []
 future_table = []
 for r in range(0, rows_num + 1):
@@ -94,7 +94,8 @@ while 1:
         generate_a_new_generation(table)
         table = future_table
 
-        screen.fill((255, 255, 255))
+        screen.fill((212, 208, 200))
+        screen.fill(0, (0, 45, 45 * columns_num, 45 * rows_num))
         lengY = len(table) - 1
         for y in range(lengY):
             lengX = len(table[y])
@@ -121,7 +122,8 @@ while 1:
                     print(running)
 
     while not running:
-        screen.fill((255, 255, 255))
+        screen.fill((212, 208, 200))
+        screen.fill(0, (0, 45, 45 * columns_num, 45 * rows_num))
         lengY = len(table) - 1
         for y in range(lengY):
             lengX = len(table[y])
